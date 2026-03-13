@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCab – Intelligent Ride Booking</title>
+    <!-- Neutral Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚕</text></svg>">
+    
+    <!-- Modern Typography (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+
+    <!-- Phosphor Icons (for modern UI icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Sticky Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="ph-fill ph-car-profile"></i>
+                SmartCab
+            </a>
+            
+            <button class="menu-toggle" aria-label="Toggle Menu">
+                <i class="ph ph-list"></i>
+            </button>
+            
+            <ul class="nav-links">
+                <li><a href="#ride" class="active">Ride</a></li>
+                <li><a href="#drive">Drive</a></li>
+                <li><a href="#business">Business</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#" class="btn-login">Log In</a></li>
+                <li><a href="#" class="btn-signup">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Layout -->
+    <main class="booking-layout">
+        
+        <!-- Left Panel: Booking Form -->
+        <section class="booking-panel">
+            <h1 class="hero-title">Request a ride</h1>
+            <p class="hero-subtitle">Get to your destination safely and on time.</p>
+
+            <div class="booking-card">
+                
+                <form id="ride-form" autocomplete="off">
+                    <!-- Pickup Input Group -->
+                    <div class="input-group">
+                        <i class="ph-fill ph-navigation-arrow icon-pickup"></i>
+                        <input type="text" id="pickup-input" placeholder="Enter pickup location" aria-label="Pickup Location">
+                        <button type="button" class="btn-clear" id="clear-pickup" aria-label="Clear pickup"><i class="ph-bold ph-x"></i></button>
+                        <ul class="suggestions-list" id="pickup-suggestions"></ul>
+                    </div>
+                    
+                    <div class="route-connector"></div>
+
+                    <!-- Dropoff Input Group -->
+                    <div class="input-group">
+                        <i class="ph-fill ph-map-pin icon-dropoff"></i>
+                        <input type="text" id="dropoff-input" placeholder="Enter destination" aria-label="Dropoff Location">
+                        <button type="button" class="btn-clear" id="clear-dropoff" aria-label="Clear dropoff"><i class="ph-bold ph-x"></i></button>
+                        <ul class="suggestions-list" id="dropoff-suggestions"></ul>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn-primary" id="btn-find-rides" disabled>
+                            <span class="btn-text">Find Rides</span>
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- Searching Animation Container -->
+            <div class="search-overlay" id="search-animation" style="display: none;">
+                <div class="search-content">
+                    <div class="car-animation-wrapper">
+                        <i class="ph-fill ph-car-profile moving-car"></i>
+                    </div>
+                    <h3 class="search-text">Connecting to drivers nearby...</h3>
+                </div>
+            </div>
+
+            <!-- Ride Options (Hidden initially) -->
+            <div class="ride-options-container" id="ride-options" style="display: none;">
+                <h2>Available Rides</h2>
+                
+                <div class="ride-card">
+                    <div class="ride-card-img">
+                        <i class="ph-fill ph-car-profile"></i>
+                    </div>
+                    <div class="ride-card-details">
+                        <h3>Smart Mini</h3>
+                        <p>Affordable, compact rides</p>
+                        <span class="eta">4 mins away</span>
+                    </div>
+                    <div class="ride-card-price" id="price-mini">₹--</div>
+                </div>
+
+                <div class="ride-card prominent">
+                    <div class="ride-card-img">
+                        <i class="ph-fill ph-car"></i>
+                    </div>
+                    <div class="ride-card-details">
+                        <h3>Smart Sedan <span class="badge">Popular</span></h3>
+                        <p>Comfortable sedans, top-rated drivers</p>
+                        <span class="eta">2 mins away</span>
+                    </div>
+                    <div class="ride-card-price" id="price-sedan">₹--</div>
+                </div>
+
+                <div class="ride-card">
+                    <div class="ride-card-img">
+                        <i class="ph-fill ph-jeep"></i>
+                    </div>
+                    <div class="ride-card-details">
+                        <h3>Smart SUV</h3>
+                        <p>More room for friends and luggage</p>
+                        <span class="eta">7 mins away</span>
+                    </div>
+                    <div class="ride-card-price" id="price-suv">₹--</div>
+                </div>
+                
+                <div class="payment-method-container">
+                    <label for="payment-method">Payment Method</label>
+                    <select id="payment-method" class="payment-select">
+                        <option value="card">💳 Credit/Debit Card (...4242)</option>
+                        <option value="cash">💵 Cash</option>
+                        <option value="wallet">📱 SmartCab Wallet</option>
+                    </select>
+                </div>
+                
+                <button type="button" class="btn-primary confirm-btn" id="btn-confirm">
+                    Confirm Ride
+                </button>
+            </div>
+
+        </section>
+
+        <!-- Right Panel: Map View -->
+        <section class="map-panel">
+            <div id="map"></div>
+        </section>
+
+    </main>
+
+    <!-- Dummy Sections for Navbar Functionality -->
+    <section id="ride" class="content-section" style="display: none;"></section>
+    
+    <section id="drive" class="content-section">
+        <div class="container text-center">
+            <h2>Drive with SmartCab</h2>
+            <p>Make money on your schedule. Sign up to drive today and start earning.</p>
+            <button class="btn-primary" style="width: auto; padding: 1rem 2rem; margin-top: 2rem; display: inline-block;">Become a Driver</button>
+        </div>
+    </section>
+
+    <section id="business" class="content-section">
+        <div class="container text-center">
+            <h2>SmartCab for Business</h2>
+            <p>A corporate travel solution that keeps your team moving forward.</p>
+            <button class="btn-primary" style="width: auto; padding: 1rem 2rem; margin-top: 2rem; display: inline-block;">Get Started</button>
+        </div>
+    </section>
+
+    <section id="about" class="content-section">
+        <div class="container text-center">
+            <h2>About Us</h2>
+            <p>We are reimagining the way the world moves for the better.</p>
+        </div>
+    </section>
+
+    <!-- Auth Modals -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-title">Log In</h2>
+            <form id="auth-form">
+                <div class="input-group" style="margin-bottom: 1rem;">
+                    <i class="ph-fill ph-envelope"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group" style="margin-bottom: 1.5rem;">
+                    <i class="ph-fill ph-lock-key"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-primary">Continue</button>
+            </form>
+            <p class="modal-footer">By proceeding, you consent to get emails and calls.</p>
+        </div>
+    </div>
+
+    <!-- Leaflet JS & Routing Machine JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    
+    <!-- Custom Application Logic -->
+    <script src="main.js"></script>
+</body>
+</html>

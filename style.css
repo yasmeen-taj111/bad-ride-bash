@@ -1,0 +1,669 @@
+/* === CSS VARIABLES (Theme Settings) === */
+:root {
+    /* Premium Real Brand Colors (Uber/Lyft Style) */
+    --primary-color: #000000; /* Pure Black */
+    --primary-hover: #1f1f1f;
+    --accent-color: #0066FF; /* Electric Tech Blue */
+    --accent-hover: #005ce6;
+    --bg-color: #ffffff;
+    --surface-color: #f3f3f3;
+    --surface-hover: #e2e2e2;
+    
+    /* Text Colors */
+    --text-main: #000000;
+    --text-muted: #545454;
+    --text-light: #757575;
+    
+    /* Layout & Shadows */
+    --border-radius: 12px;
+    --border-radius-sm: 8px;
+    --box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    --box-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.12);
+    
+    /* Fonts */
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    
+    /* Animation Speeds */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+}
+
+/* === RESET & BASE === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-main);
+    background-color: var(--bg-color);
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* === NAVBAR === */
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: var(--bg-color);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    text-decoration: none;
+    letter-spacing: -1px;
+}
+
+.logo i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    -webkit-text-fill-color: initial;
+    background: none;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color var(--transition-fast);
+}
+
+.nav-links li a:hover {
+    color: var(--text-muted);
+}
+
+.nav-links .active {
+    background: var(--surface-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
+
+.btn-login {
+    padding: 0.5rem 1rem;
+}
+
+.btn-signup {
+    background-color: var(--primary-color);
+    color: #fff !important;
+    padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    transition: background-color var(--transition-fast) !important;
+}
+
+.btn-signup:hover {
+    background-color: var(--primary-hover);
+    color: #fff !important;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-main);
+}
+
+/* === MAIN LAYOUT === */
+.booking-layout {
+    display: grid;
+    grid-template-columns: 450px 1fr;
+    height: calc(100vh - 72px); /* Calc viewport minus navbar */
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* === BOOKING PANEL (Left Side) === */
+.booking-panel {
+    padding: 2.5rem;
+    overflow-y: auto;
+    background: var(--bg-color);
+    z-index: 10;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+.booking-card {
+    background: var(--surface-color);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+}
+
+/* INPUT GROUPS */
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 1rem 2.5rem;
+    border: 2px solid transparent;
+    border-radius: var(--border-radius-sm);
+    background: var(--bg-color);
+    font-family: var(--font-family);
+    font-size: 1rem;
+    color: var(--text-main);
+    transition: all var(--transition-fast);
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+}
+
+.input-group input::placeholder {
+    color: var(--text-light);
+}
+
+.input-group i[class^="ph-fill"] {
+    position: absolute;
+    left: 1rem;
+    font-size: 1.2rem;
+    z-index: 2;
+}
+
+.icon-pickup {
+    color: var(--text-main);
+}
+
+.icon-dropoff {
+    color: var(--accent-color);
+}
+
+/* Clear Input Buttons */
+.btn-clear {
+    position: absolute;
+    right: 0.8rem;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    padding: 4px;
+    display: none; /* hidden by default */
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.btn-clear:hover {
+    background: var(--surface-hover);
+    color: var(--text-main);
+}
+
+.input-group input:not(:placeholder-shown) ~ .btn-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Visual Connector between inputs */
+.route-connector {
+    margin: 0.5rem 0 0.5rem 1.4rem;
+    height: 1.5rem;
+    width: 2px;
+    background-color: #d3d3d3;
+    position: relative;
+}
+
+/* Suggestions Dropdown */
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background: var(--bg-color);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--box-shadow);
+    list-style: none;
+    z-index: 100;
+    margin-top: 8px;
+    display: none; /* hidden initially */
+}
+
+.suggestions-list li {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--surface-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.suggestions-list li i {
+    color: var(--text-light);
+}
+
+.suggestions-list li:hover {
+    background-color: var(--surface-color);
+}
+
+/* BUTTONS */
+.form-actions {
+    margin-top: 1.5rem;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-family);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Premium Brand Solid Backgrounds */
+.btn-primary:not(:disabled) {
+    background: var(--primary-color);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+.btn-primary:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-primary:disabled {
+    background-color: #e0e0e0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+/* === SEARCHING ANIMATION === */
+.search-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    margin-top: 1.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.search-content {
+    text-align: center;
+}
+
+.car-animation-wrapper {
+    position: relative;
+    width: 200px;
+    height: 60px;
+    margin: 0 auto 1.5rem auto;
+    border-bottom: 2px dashed #ddd; /* Fake road */
+    overflow: hidden;
+}
+
+.moving-car {
+    font-size: 3rem;
+    color: var(--primary-color);
+    position: absolute;
+    bottom: -5px; /* sit on the road */
+    left: -50px;
+    animation: driveCar 2.5s infinite linear;
+}
+
+@keyframes driveCar {
+    0% { left: -50px; }
+    100% { left: 220px; }
+}
+
+.search-text {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+/* === RIDE OPTIONS === */
+.ride-options-container {
+    margin-top: 1rem;
+    animation: slideUp 0.4s ease forwards;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.ride-options-container h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.ride-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.ride-card:hover {
+    background-color: var(--surface-color);
+}
+
+.ride-card.selected {
+    border-color: var(--primary-color);
+    background-color: var(--surface-color);
+}
+
+.ride-card.prominent {
+    background-color: #f8fbff;
+    border: 2px solid #e0eeff;
+}
+
+.ride-card.prominent.selected {
+    border-color: var(--accent-color);
+    background-color: #eef5ff;
+}
+
+.ride-card-img {
+    font-size: 2.5rem;
+    margin-right: 1rem;
+    color: var(--text-main);
+}
+
+.ride-card-details {
+    flex-grow: 1;
+}
+
+.ride-card-details h3 {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.badge {
+    background-color: var(--accent-color);
+    color: white;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.ride-card-details p {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.eta {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+    font-weight: 500;
+}
+
+.ride-card-price {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Payment Selection */
+.payment-method-container {
+    margin: 1.5rem 0 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.payment-method-container label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.payment-select {
+    padding: 0.8rem 1rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid #ccc;
+    background-color: var(--surface-color);
+    font-family: var(--font-family);
+    font-size: 0.95rem;
+    color: var(--text-main);
+    outline: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.payment-select:focus {
+    border-color: var(--primary-color);
+}
+
+.confirm-btn {
+    margin-top: 0.5rem;
+}
+
+/* === MAP PANEL (Right Side) === */
+.map-panel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    background-color: #e5e5e5; /* Placeholder color while loading */
+}
+
+/* Leaflet Overrides for cleaner UI */
+.leaflet-control-routing-container {
+    display: none !important; /* Hide the turn-by-turn text box */
+}
+
+.leaflet-routing-alt {
+    display: none !important;
+}
+
+.leaflet-control-attribution {
+    display: none !important; /* Hide attribution as requested */
+}
+
+.animated-car-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    z-index: 1000 !important;
+}
+
+/* === CONTENT SECTIONS (For Navbar Functionality) === */
+.content-section {
+    padding: 6rem 2rem;
+    background: var(--bg-color);
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-section:nth-child(even) {
+    background: var(--surface-color);
+}
+
+.container.text-center {
+    text-align: center;
+    max-width: 800px;
+}
+
+.container.text-center h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.container.text-center p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+}
+
+/* === MODALS (Auth) === */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: var(--bg-color);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: var(--text-main);
+}
+
+.modal-content h2 {
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.modal-footer {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    text-align: center;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 900px) {
+    .booking-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 50vh;
+        height: auto;
+    }
+    
+    .map-panel {
+        order: -1; /* Move map to top on mobile */
+    }
+
+    .booking-panel {
+        padding: 1.5rem;
+        box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
+        border-radius: 20px 20px 0 0;
+        margin-top: -20px; /* Overlap map */
+        position: relative;
+        z-index: 10;
+        height: min-content;
+    }
+    
+    .nav-links {
+        display: none; /* Hide links behind hamburger */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: var(--bg-color);
+        padding: 1rem 0;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    
+    .nav-links.show {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+}
