@@ -7,11 +7,12 @@ This project was initially created for a "Design Disaster UI/UX Challenge." The 
 The primary objective of this project is to demonstrate the stark contrast between poor user experience design and improved, user-centric UX. It serves as an educational tool showcasing how resolving specific interface and workflow issues can transform a confusing application into an intuitive, production-ready product.
 
 ## Technologies Used
-* Vite
-* TypeScript
-* React
-* shadcn-ui
-* Tailwind CSS
+* **HTML5** (Semantic structure)
+* **CSS3** (Vanilla CSS with variables, transitions, and animations)
+* **Vanilla JavaScript** (DOM manipulation and routing logic)
+* **Leaflet.js** (Interactive map rendering)
+* **Leaflet Routing Machine** (Geographic polyline route generation)
+* **Nominatim API** (OpenStreetMap location auto-suggestions)
 
 ## How to Run the Project
 Follow these simple steps to set up and run the application locally:
